@@ -1,0 +1,16 @@
+.header {
+    background-color: lightblue;
+
+    position: fixed;
+    top: 0px;
+    width: 100vh;
+}
+
+.header #p {
+    color: white;
+}
+
+.header-right {
+    position: relative;
+    right: 0px;
+}
