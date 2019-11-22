@@ -6,11 +6,6 @@
     width: 100vh;
 }
 
-.header #p {
-    color: white;
-}
-
 .header-right {
-    position: relative;
-    right: 0px;
+    float: right;
 }

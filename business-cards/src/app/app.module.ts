@@ -12,10 +12,16 @@ import { HeaderComponent } from './header/header.component';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
+import { HomeComponent } from './home/home.component';
+import { BusinessCardComponent } from './business-card/business-card.component';
+import { EditBusinessCardComponent } from './edit-business-card/edit-business-card.component';
+import { BusinessCardListComponent } from './business-card-list/business-card-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent }, //todo: Add AuthGuard here
+  { path: '', redirectTo: 'edit', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent }, 
+  { path: 'home', component: HomeComponent }, //todo: add authguard here
+  { path: 'edit', component: EditBusinessCardComponent }, //todo: authguard here?
   { path: '**', component: LoginComponent }
 ];
 
@@ -23,7 +29,11 @@ export const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent,
+    BusinessCardComponent,
+    EditBusinessCardComponent,
+    BusinessCardListComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig, 'my-app-name'),
