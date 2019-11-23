@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../auth.service';
+import { BusinessCardService } from '../business-card.service';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +16,13 @@ export class LoginComponent implements OnInit {
 
   constructor(
       private formBuilder: FormBuilder,
-      private authService: AuthService
+      private authService: AuthService,
+      private cardsService: BusinessCardService,
+      private router: Router
   ) {
       //redirect to home if already logged in
       if (this.authService.user) { 
-        console.log(this.authService.user);
+        this.router.navigate(['home']);
       }
   }
 
@@ -40,14 +45,12 @@ export class LoginComponent implements OnInit {
   onLoginSubmit() {
       // stop here if form is invalid
       if (this.loginForm.invalid) { return; }
-      console.log(this.f_login.email.value + ", " + this.f_login.password.value);
       this.authService.login(this.f_login.email.value, this.f_login.password.value);
   }
 
   onRegisterSubmit() {
     // stop here if form is invalid
     if (this.registerForm.invalid) { return; }
-    console.log(this.f_register.email.value + ", " + this.f_register.password.value);
     this.authService.register(this.f_register.email.value, this.f_register.password.value);
-}
+  }
 }

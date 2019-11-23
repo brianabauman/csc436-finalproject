@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs';
+import { BusinessCardService } from './business-card.service';
+import { ReturnStatement } from '@angular/compiler';
 
 @Injectable()
 export class AuthService {
@@ -11,10 +13,14 @@ export class AuthService {
   userID: string;
   loggedIn: boolean;
 
-  constructor(private firebaseAuth: AngularFireAuth,
-             private router: Router) {
+  constructor(
+      private firebaseAuth: AngularFireAuth, 
+      private router: Router,
+      private cardsService: BusinessCardService
+    ) {
     this.user = firebaseAuth.authState;
     this.loggedIn = false;
+    this.firebaseAuth.authState.subscribe(user => this.userID = user.uid);
   }
 
   login(email: string, password: string) {
@@ -24,7 +30,6 @@ export class AuthService {
       .then((userCred) => {
         console.log("login successful, uid: " + userCred.user.uid);
         this.loggedIn = true;
-        this.userID = userCred.user.uid;
         this.router.navigate(['home']);
       })
       .catch(err => {
@@ -38,7 +43,6 @@ export class AuthService {
       .auth
       .signOut();
     this.loggedIn = false;
-    this.userID = "";
     this.router.navigate(['login']);
   }
   
@@ -53,7 +57,7 @@ export class AuthService {
       .then((userCred) => {
         console.log("registration successful, uid: " + userCred.user.uid);
         this.loggedIn = true;
-        this.userID = userCred.user.uid;
+        this.cardsService.createCollection(this.userID);
         this.router.navigate(['home']);
       })
       .catch(err => {

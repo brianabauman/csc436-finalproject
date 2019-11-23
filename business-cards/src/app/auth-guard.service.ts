@@ -16,7 +16,6 @@ export class AuthGuardService implements CanActivate {
       map((user) => !!user),
       tap((loggedIn) => {
         if (!loggedIn) {
-          console.log('access denied');
           this.authService.loggedIn = false;
           this.router.navigate(['/login']);
         } else {

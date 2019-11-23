@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { BusinessCard } from '../business-card.model';
+import { BusinessCardService } from '../business-card.service';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-business-card-list',
@@ -8,37 +13,34 @@ import { BusinessCard } from '../business-card.model';
   styleUrls: ['./business-card-list.component.css']
 })
 export class BusinessCardListComponent implements OnInit {
-  cards: BusinessCard[]
+  cards: Observable<any>
 
-  constructor() { 
-    const card1 = new BusinessCard();
-    card1.firstName = "Hansel";
-    card1.lastName = "Hanson";
-    card1.emailAddress = "hansel@hansonbuttfactory.com";
-    card1.phoneNumber = "(123) YES-BUTT";
-    card1.company = "Hanson's Butt Factory";
-
-    const card2 = new BusinessCard();
-    card2.firstName = "Gretel";
-    card2.lastName = "Hanson";
-    card2.emailAddress = "gretel@hansonbuttfactory.com";
-    card2.phoneNumber = "(123) YES-BUTT";
-    card2.company = "Hanson's Butt Factory";
-
-    const card3 = new BusinessCard();
-    card3.firstName = "Marquise";
-    card3.lastName = "Hanson";
-    card3.emailAddress = "marquise@hansonbuttfactory.com";
-    card3.phoneNumber = "(123) YES-BUTT";
-    card3.company = "Hanson's Butt Factory";
-
-    this.cards = [];
-    this.cards.push(card1);
-    this.cards.push(card2);
-    this.cards.push(card3);
-  }
+  constructor(
+    private authService: AuthService, 
+    private cardService: BusinessCardService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.cards = this.cardService.getCards(this.authService.userID)
+      .snapshotChanges()
+      .pipe(map(actions => {
+        return actions.map(a => {
+            //Get document data
+            const data = a.payload.doc.data() as BusinessCard;
+            //Get document id
+            const id = a.payload.doc.id;
+            //Use spread operator to add the id to the document data
+            return { id, ...data };
+        });
+      }));
   }
 
+  editCard(card: any) {
+    this.router.navigate([`edit/${this.authService.userID}/${card.id}`])
+  }
+
+  deleteCard(card: any) {
+    this.cardService.deleteCard(this.authService.userID, card.id);
+  }
 }

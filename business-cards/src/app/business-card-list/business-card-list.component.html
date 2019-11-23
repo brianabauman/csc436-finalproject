@@ -1,10 +1,10 @@
 <div>
   My Business Cards
-  <table *ngFor="let card of cards; let i = index">
+  <table *ngFor="let card of cards | async">
      <tr>
          <app-business-card [card]="card"></app-business-card>
-         <button>Edit</button>
-         <button>Delete</button>
+         <button (click)="editCard(card)">Edit</button>
+         <button (click)="deleteCard(card)">Delete</button>
      </tr>
   </table>
 </div>
