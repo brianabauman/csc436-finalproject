@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import {
     AngularFirestore,
-    AngularFirestoreCollection
+    AngularFirestoreCollection,
+    AngularFirestoreDocument
 } from "@angular/fire/firestore";
-import { map } from 'rxjs/operators';
 
 import { BusinessCard } from './business-card.model';
 
@@ -14,15 +14,8 @@ export class BusinessCardService {
 
   constructor(private db: AngularFirestore) { }
 
-  getCard(userID: string, cardID: string): any {
-    this.db.collection(`business-cards/${userID}/cards`)
-      .doc<BusinessCard>(cardID)
-      .valueChanges()
-      .pipe(map(data => { 
-        console.log(data.firstName);
-        return data; 
-      }));
-    console.log("test123");
+  getCard(userID: string, cardID: string): AngularFirestoreDocument<BusinessCard> {
+    return this.db.collection(`business-cards/${userID}/cards`).doc<BusinessCard>(cardID);
   }
 
   getCards(userID: string): AngularFirestoreCollection<BusinessCard> {

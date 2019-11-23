@@ -27,7 +27,9 @@ export class EditBusinessCardComponent implements OnInit {
       this.cardID = params["cardID"];
     });
 
-    this.card = this.cardsService.getCard(this.userID, this.cardID);
+    //todo: how to get a fucking business card jesus
+    this.cardsService.getCard(this.userID, this.cardID);
+
     console.log("card: " + this.card.emailAddress);
 
     this.editBusinessCardForm = this.formBuilder.group({
