@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { BusinessCard } from '../business-card.model';
 
@@ -8,16 +8,9 @@ import { BusinessCard } from '../business-card.model';
   styleUrls: ['./business-card.component.css']
 })
 export class BusinessCardComponent implements OnInit {
-  card: BusinessCard;
+  @Input() card: BusinessCard;
 
-  constructor() { 
-    this.card = new BusinessCard();
-    this.card.firstName = "Hansel";
-    this.card.lastName = "Hanson";
-    this.card.emailAddress = "butts@hansonbuttfactory.com";
-    this.card.phoneNumber = "(123) YES-BUTT";
-    this.card.company = "Hanson's Butt Factory";
-  }
+  constructor() { }
 
   ngOnInit() {
   }

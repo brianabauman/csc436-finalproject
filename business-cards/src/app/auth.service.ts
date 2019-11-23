@@ -8,11 +8,13 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthService {
   user: Observable<firebase.User>;
+  userID: string;
   loggedIn: boolean;
 
   constructor(private firebaseAuth: AngularFireAuth,
              private router: Router) {
     this.user = firebaseAuth.authState;
+    this.loggedIn = false;
   }
 
   login(email: string, password: string) {
@@ -20,14 +22,14 @@ export class AuthService {
       .auth
       .signInWithEmailAndPassword(email, password)
       .then((userCred) => {
-        console.log('Nice, it worked! uid: ' + userCred.user.uid);
+        console.log("login successful, uid: " + userCred.user.uid);
         this.loggedIn = true;
-        this.router.navigate(['/home']);
+        this.userID = userCred.user.uid;
+        this.router.navigate(['home']);
       })
       .catch(err => {
-        console.log('Something went wrong:',err.message);
         this.loggedIn = false;
-        alert("Invalid username/password.");
+        alert("Login error: " + err.message);
       });
   }
 
@@ -36,10 +38,27 @@ export class AuthService {
       .auth
       .signOut();
     this.loggedIn = false;
-    console.log("signed out")
+    this.userID = "";
+    this.router.navigate(['login']);
   }
-
+  
   isLoggedIn(): boolean {
     return this.loggedIn;
+  }
+
+  register(email: string, password: string) {
+    this.firebaseAuth
+      .auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCred) => {
+        console.log("registration successful, uid: " + userCred.user.uid);
+        this.loggedIn = true;
+        this.userID = userCred.user.uid;
+        this.router.navigate(['home']);
+      })
+      .catch(err => {
+        this.loggedIn = false;
+        alert("Registration error: " + err.message);
+      });
   }
 }

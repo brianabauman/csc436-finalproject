@@ -1,8 +1,6 @@
 <div class="header">
     Business Cards
     <span class="header-right">
-        <button>
-            Logout
-        </button>
+        <button *ngIf="authService.loggedIn" (click)="authService.logout()">Logout</button>
     </span>
 </div>

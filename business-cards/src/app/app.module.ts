@@ -6,24 +6,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { HeaderComponent } from './header/header.component';
 import { AuthService } from './auth.service';
 
 import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { BusinessCardComponent } from './business-card/business-card.component';
 import { EditBusinessCardComponent } from './edit-business-card/edit-business-card.component';
 import { BusinessCardListComponent } from './business-card-list/business-card-list.component';
-
-export const routes: Routes = [
-  { path: '', redirectTo: 'edit', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent }, 
-  { path: 'home', component: HomeComponent }, //todo: add authguard here
-  { path: 'edit', component: EditBusinessCardComponent }, //todo: authguard here?
-  { path: '**', component: LoginComponent }
-];
+import { AuthGuardService } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -41,11 +34,11 @@ export const routes: Routes = [
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    ReactiveFormsModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })
