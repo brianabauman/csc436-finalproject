@@ -1,6 +1,7 @@
-<div class="header">
-    Business Cards
-    <span class="header-right">
-        <button *ngIf="authService.loggedIn" (click)="authService.logout()">Logout</button>
+<mat-toolbar>
+    <span>Business Cards</span>
+    <span class="fill-space"></span>
+    <span>
+        <button mat-raised-button *ngIf="authService.loggedIn" (click)="authService.logout()">Logout</button>
     </span>
-</div>
+</mat-toolbar>
