@@ -23,6 +23,7 @@ import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
 import { WebcamScreenshotComponent } from './webcam-screenshot/webcam-screenshot.component';
 import { FilterPipe } from './filter.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FilterPipe } from './filter.pipe';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AuthService,
