@@ -13,6 +13,8 @@ import { BusinessCardService } from '../business-card.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
+  shouldShowRegister: boolean = false;
+  shouldShowLogin: boolean = true;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -52,5 +54,10 @@ export class LoginComponent implements OnInit {
     // stop here if form is invalid
     if (this.registerForm.invalid) { return; }
     this.authService.register(this.f_register.email.value, this.f_register.password.value);
+  }
+
+  toggleRegister() {
+    this.shouldShowLogin = !this.shouldShowLogin;
+    this.shouldShowRegister = !this.shouldShowRegister;
   }
 }

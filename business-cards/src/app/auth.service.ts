@@ -21,8 +21,7 @@ export class AuthService {
     this.user = firebaseAuth.authState;
     this.loggedIn = false;
     this.firebaseAuth.authState.subscribe(user => { 
-      if (this.userID) { this.userID = user.uid }
-      else { this.userID = "" }
+      this.userID = user.uid;
     });
   }
 

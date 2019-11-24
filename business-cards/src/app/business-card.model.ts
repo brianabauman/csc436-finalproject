@@ -14,6 +14,7 @@ export class BusinessCard implements IBusinessCard {
     emailAddress: string;
     company: string;
     additionalInfo: string;
+    //imageBase64: string;
 
     constructor() {
         this.firstName = "";

@@ -1,0 +1,15 @@
+.business-card-list-wrapper {
+  margin: 20px;
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+}
+.add-button {
+  margin-top: 15px;
+}
+
+.fill-space {
+  flex: 1 1 auto;
+}

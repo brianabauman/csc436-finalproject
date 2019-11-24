@@ -1,11 +1,21 @@
-<div>
-  <h3>My Business Cards</h3>
-  <input [(ngModel)]="searchText" placeholder="Search...">
-  <table *ngFor="let card of cards | async | filter : searchText">
-     <tr>
-         <app-business-card [card]="card"></app-business-card>
-         <button (click)="editCard(card)">Edit</button>
-         <button (click)="deleteCard(card)">Delete</button>
-     </tr>
-  </table>
+<div class="business-card-list-wrapper"> 
+  <div class="nav-wrapper">
+    <span *ngIf="(cards | async)?.length > 0">
+      <mat-form-field>
+        <input matInput [(ngModel)]="searchText" placeholder="Search"> 
+        <button mat-button *ngIf="searchText" matSuffix mat-icon-button (click)="searchText=''">
+            <mat-icon>close</mat-icon>
+          </button>
+      </mat-form-field>
+    </span>
+    <span *ngIf="(cards | async)?.length > 0" class="fill-space"></span>
+    <span>
+      <button mat-stroked-button class="add-button" [routerLink]="['/add']">Add a business card</button>
+    </span>
+  </div>
+  <mat-grid-list cols="2" gutterSize="5px">
+      <mat-grid-tile *ngFor="let card of cards | async | filter : searchText">
+          <app-business-card [card]="card"></app-business-card>
+      </mat-grid-tile>
+  </mat-grid-list>
 </div>

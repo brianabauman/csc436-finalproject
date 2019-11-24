@@ -5,8 +5,16 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatToolbarModule, MatButtonModule, MatFormFieldModule } from '@angular/material'
-
+import { 
+  MatToolbarModule, 
+  MatButtonModule, 
+  MatFormFieldModule,
+  MatInputModule,
+  MatCardModule,
+  MatDividerModule,
+  MatListModule,
+  MatIconModule,
+  MatGridListModule } from '@angular/material'
 
 import { environment } from '../environments/environment';
 
@@ -52,7 +60,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule,
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [
     AuthService,
