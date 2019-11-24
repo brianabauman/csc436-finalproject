@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { BusinessCard } from '../business-card.model';
 import { BusinessCardService } from '../business-card.service';
@@ -13,21 +13,29 @@ import { AuthService } from '../auth.service';
 })
 export class AddBusinessCardComponent implements OnInit {
   addBusinessCardForm: FormGroup;
+  text: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private cardsService: BusinessCardService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.text = params["text"];
+    });
+
+    let card = this.extractBusinessCard(this.text);
+
     this.addBusinessCardForm = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        phoneNumber: ['', Validators.required],
-        emailAddress: ['', Validators.required],
-        company: ['', Validators.required],
+        firstName: [card.firstName, Validators.required],
+        lastName: [card.lastName, Validators.required],
+        phoneNumber: [card.phoneNumber, Validators.required],
+        emailAddress: [card.emailAddress, Validators.required],
+        company: [card.company, Validators.required],
         additionalInfo: ['']
     });
   }
@@ -38,7 +46,16 @@ export class AddBusinessCardComponent implements OnInit {
   onSubmit() {
       // stop here if form is invalid
       if (this.addBusinessCardForm.invalid) {
-          return;
+        const controls = this.addBusinessCardForm.controls;
+        let message = "Error:";
+        for (const name in controls) {
+          if (controls[name].invalid) {
+            message += `\n A valid ${name} is required.`;
+          }
+        }
+
+        alert(message);
+        return;
       }
 
       console.log(this.f.firstName.value + ", " + 
@@ -58,5 +75,42 @@ export class AddBusinessCardComponent implements OnInit {
 
       this.cardsService.addCard(this.authService.userID, card);
       this.router.navigate(['home']);
+  }
+
+  extractBusinessCard(text: string): BusinessCard {
+    const card = new BusinessCard();
+    if (text) {
+      let emailMatches = text.match(/\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+/);
+      if (emailMatches && emailMatches.length > 0) {
+        card.emailAddress = emailMatches[0];
+      }
+
+      let phoneMatches = text.match(/[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}/);
+      if (phoneMatches && phoneMatches.length > 0) {
+        card.phoneNumber = phoneMatches[0];
+      }
+
+      text = text.replace(card.phoneNumber, "");
+      text = text.replace(card.emailAddress, "");
+
+      const lines = text.split('\n');
+      const name = lines[0];
+      if (name.indexOf(' ') >= 0 ) {
+        card.firstName = name.split(' ')[0];
+        card.lastName = name.split(' ')[name.split(' ').length - 1];
+      } else {
+        card.firstName = name;
+      }
+      text = text.replace(name, "");
+
+      if (lines.length > 1) { 
+        card.company = lines[1]; 
+        text = text.replace(card.company, "");
+      }
+      
+      card.additionalInfo = text;
+    }
+
+    return card;
   }
 }

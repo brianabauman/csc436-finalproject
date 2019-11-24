@@ -30,10 +30,12 @@ export class AuthService {
       .then((userCred) => {
         console.log("login successful, uid: " + userCred.user.uid);
         this.loggedIn = true;
+        this.userID = userCred.user.uid;
         this.router.navigate(['home']);
       })
       .catch(err => {
         this.loggedIn = false;
+        this.userID = "";
         alert("Login error: " + err.message);
       });
   }
@@ -57,11 +59,13 @@ export class AuthService {
       .then((userCred) => {
         console.log("registration successful, uid: " + userCred.user.uid);
         this.loggedIn = true;
+        this.userID = userCred.user.uid;
         this.cardsService.createCollection(this.userID);
         this.router.navigate(['home']);
       })
       .catch(err => {
         this.loggedIn = false;
+        this.userID = "";
         alert("Registration error: " + err.message);
       });
   }

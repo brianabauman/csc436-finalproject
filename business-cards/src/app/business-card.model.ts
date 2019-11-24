@@ -14,4 +14,13 @@ export class BusinessCard implements IBusinessCard {
     emailAddress: string;
     company: string;
     additionalInfo: string;
+
+    constructor() {
+        this.firstName = "";
+        this.lastName = "";
+        this.phoneNumber = "";
+        this.emailAddress = "";
+        this.company = "";
+        this.additionalInfo = "";
+    }
 }

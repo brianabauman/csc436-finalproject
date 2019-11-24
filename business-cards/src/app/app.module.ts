@@ -4,6 +4,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 
@@ -20,6 +21,8 @@ import { AddBusinessCardComponent } from './add-business-card/add-business-card.
 
 import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
+import { WebcamScreenshotComponent } from './webcam-screenshot/webcam-screenshot.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { AuthGuardService } from './auth-guard.service';
     BusinessCardComponent,
     EditBusinessCardComponent,
     BusinessCardListComponent,
-    AddBusinessCardComponent
+    AddBusinessCardComponent,
+    WebcamScreenshotComponent,
+    FilterPipe
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig, 'my-app-name'),
@@ -39,7 +44,8 @@ import { AuthGuardService } from './auth-guard.service';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     AuthService,

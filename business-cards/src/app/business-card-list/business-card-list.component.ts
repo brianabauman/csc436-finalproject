@@ -7,6 +7,8 @@ import { BusinessCardService } from '../business-card.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
+import { FilterPipe }from '../filter.pipe'
+
 @Component({
   selector: 'app-business-card-list',
   templateUrl: './business-card-list.component.html',
