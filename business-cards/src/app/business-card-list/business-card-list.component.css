@@ -10,3 +10,17 @@
 .fill-space {
   flex: 1 1 auto;
 }
+
+.cards-grid {
+  height: 1000px;
+  width: 75%;
+}
+
+.card {
+  position: absolute;
+  left: 5px;
+}
+
+mat-grid-tile {
+  overflow: visible;
+}

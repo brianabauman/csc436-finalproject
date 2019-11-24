@@ -36,7 +36,7 @@ export class AddBusinessCardComponent implements OnInit {
         phoneNumber: [card.phoneNumber, Validators.required],
         emailAddress: [card.emailAddress, Validators.required],
         company: [card.company, Validators.required],
-        additionalInfo: ['']
+        additionalInfo: [card.additionalInfo]
     });
   }
 
@@ -109,6 +109,7 @@ export class AddBusinessCardComponent implements OnInit {
       }
       
       card.additionalInfo = text;
+      console.log(card.additionalInfo);
     }
 
     return card;

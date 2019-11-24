@@ -6,7 +6,7 @@
         <button class="webcam-button" mat-stroked-button [routerLink]="['/screenshot']">Populate with webcam</button>
     </span>
 </div>
-<form [formGroup]="addBusinessCardForm" (ngSubmit)="onSubmit()">
+<form class="form-container" [formGroup]="addBusinessCardForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <mat-form-field>
             <input matInput placeholder="First name" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />

@@ -62,8 +62,12 @@ export class WebcamScreenshotComponent implements OnInit {
       { }
     ).subscribe(resp => { 
       this.text = resp["responses"][0].fullTextAnnotation.text;
-      if (this.text == "") { alert("No text identified. Please try again."); }
-      else { this.router.navigate([`add/${this.text}`]); }
+      if (this.text == "") { 
+        alert("No text identified. Please try again."); 
+      } else {
+        this.text = this.text.replace('\/', "");
+        this.router.navigate([`add/${this.text}`]); 
+      }
     });
   }
 }

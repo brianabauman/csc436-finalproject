@@ -16,3 +16,7 @@ li {
   display: inline;
   padding: 5px;
 }
+
+.webcam-snap-button {
+  margin-top: 10px;
+}

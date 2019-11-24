@@ -23,7 +23,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
 import { BusinessCardComponent } from './business-card/business-card.component';
 import { EditBusinessCardComponent } from './edit-business-card/edit-business-card.component';
 import { BusinessCardListComponent } from './business-card-list/business-card-list.component';
@@ -40,7 +39,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     HeaderComponent,
-    HomeComponent,
     BusinessCardComponent,
     EditBusinessCardComponent,
     BusinessCardListComponent,
