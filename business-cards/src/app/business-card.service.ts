@@ -38,7 +38,7 @@ export class BusinessCardService {
   }
   
   updateCard(userID: string, cardID: string, newCard: BusinessCard) {
-    this.db.collection<BusinessCard>(`business-cards/${userID}/cards`).doc<BusinessCard>(cardID).set(newCard);
+    this.db.collection<BusinessCard>(`business-cards/${userID}/cards`).doc<BusinessCard>(cardID).set(Object.assign({}, newCard));
   }
 
   deleteCard(userID: string, cardID: string) {

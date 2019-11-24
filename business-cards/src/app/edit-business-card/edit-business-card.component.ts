@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BusinessCard } from '../business-card.model';
 import { BusinessCardService } from '../business-card.service';
 
@@ -18,7 +18,8 @@ export class EditBusinessCardComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private cardsService: BusinessCardService
+    private cardsService: BusinessCardService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -27,19 +28,25 @@ export class EditBusinessCardComponent implements OnInit {
       this.cardID = params["cardID"];
     });
 
-    //todo: how to get a fucking business card jesus
-    this.cardsService.getCard(this.userID, this.cardID);
-
-    console.log("card: " + this.card.emailAddress);
-
     this.editBusinessCardForm = this.formBuilder.group({
-        firstName: [this.card.firstName, Validators.required],
-        lastName: [this.card.lastName, Validators.required],
-        phoneNumber: [this.card.phoneNumber, Validators.required],
-        emailAddress: [this.card.emailAddress, Validators.required],
-        company: [this.card.company, Validators.required],
-        additionalInfo: [this.card.additionalInfo, Validators.required]
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      phoneNumber: ["", Validators.required],
+      emailAddress: ["", Validators.required],
+      company: ["", Validators.required],
+      additionalInfo: [""]
     });
+
+    this.cardsService.getCard(this.userID, this.cardID)
+      .valueChanges()
+      .subscribe(doc => {
+        this.editBusinessCardForm.controls.firstName.setValue(doc.firstName);
+        this.editBusinessCardForm.controls.lastName.setValue(doc.lastName);
+        this.editBusinessCardForm.controls.phoneNumber.setValue(doc.phoneNumber);
+        this.editBusinessCardForm.controls.emailAddress.setValue(doc.emailAddress);
+        this.editBusinessCardForm.controls.company.setValue(doc.company);
+        this.editBusinessCardForm.controls.additionalInfo.setValue(doc.additionalInfo);
+      });
   }
 
   // convenience getter for easy access to form fields
@@ -67,5 +74,6 @@ export class EditBusinessCardComponent implements OnInit {
       card.additionalInfo = this.f.additionalInfo.value;
 
       this.cardsService.updateCard(this.userID, this.cardID, card);
+      this.router.navigate(['home']);
   }
 }
