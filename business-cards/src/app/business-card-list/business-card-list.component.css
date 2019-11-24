@@ -1,11 +1,8 @@
-.business-card-list-wrapper {
-  margin: 20px;
-}
-
-.nav-wrapper {
+.header-wrapper {
   display: flex;
   align-items: center;
 }
+
 .add-button {
   margin-top: 15px;
 }
