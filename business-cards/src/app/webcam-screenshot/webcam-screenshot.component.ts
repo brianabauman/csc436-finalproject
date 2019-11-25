@@ -18,7 +18,7 @@ export class WebcamScreenshotComponent implements OnInit, OnDestroy {
   public captures: Array<any>;
   public text: string = "";
   cloudResponseSub: Subscription;
-  cameraSub: Subscription;
+  cloudSubOpened: boolean = false;
 
   public constructor(
     private http: HttpClient,
@@ -30,7 +30,7 @@ export class WebcamScreenshotComponent implements OnInit, OnDestroy {
   public ngOnInit() { }
 
   ngOnDestroy() {
-    this.cameraSub.unsubscribe();
+    if (this.cloudSubOpened) { this.cloudResponseSub.unsubscribe(); }
   }
 
   public ngAfterViewInit() {
@@ -50,6 +50,7 @@ export class WebcamScreenshotComponent implements OnInit, OnDestroy {
     const base64Image = image.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
     this.captures.push(image);
 
+    this.cloudSubOpened = true;
     this.cloudResponseSub = this.http.post(
       `https://vision.googleapis.com/v1/images:annotate?key=${environment.cloudVisionApiKey}`, 
       { 
