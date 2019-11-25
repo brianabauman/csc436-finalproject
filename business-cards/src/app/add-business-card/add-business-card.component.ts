@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from "rxjs";
 
 import { BusinessCard } from '../business-card.model';
 import { BusinessCardService } from '../business-card.service';
@@ -11,9 +12,10 @@ import { AuthService } from '../auth.service';
   templateUrl: './add-business-card.component.html',
   styleUrls: ['./add-business-card.component.css']
 })
-export class AddBusinessCardComponent implements OnInit {
+export class AddBusinessCardComponent implements OnInit, OnDestroy {
   addBusinessCardForm: FormGroup;
   text: string;
+  paramSub: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,7 +26,7 @@ export class AddBusinessCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.paramSub = this.route.params.subscribe(params => {
       this.text = params["text"];
     });
 
@@ -38,6 +40,10 @@ export class AddBusinessCardComponent implements OnInit {
         company: [card.company, Validators.required],
         additionalInfo: [card.additionalInfo]
     });
+  }
+
+  ngOnDestroy() {
+    this.paramSub.unsubscribe();
   }
 
   // convenience getter for easy access to form fields

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import { BusinessCard } from '../business-card.model';
 import { BusinessCardService } from '../business-card.service';
 
@@ -9,11 +11,12 @@ import { BusinessCardService } from '../business-card.service';
   templateUrl: './edit-business-card.component.html',
   styleUrls: ['./edit-business-card.component.css']
 })
-export class EditBusinessCardComponent implements OnInit {
+export class EditBusinessCardComponent implements OnInit, OnDestroy {
   userID: string;
   cardID: string;
   card: BusinessCard;
   editBusinessCardForm: FormGroup;
+  paramSub: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,7 +26,7 @@ export class EditBusinessCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.paramSub = this.route.params.subscribe(params => {
       this.userID = params["userID"];
       this.cardID = params["cardID"];
     });
@@ -47,6 +50,10 @@ export class EditBusinessCardComponent implements OnInit {
         this.editBusinessCardForm.controls.company.setValue(doc.company);
         this.editBusinessCardForm.controls.additionalInfo.setValue(doc.additionalInfo);
       });
+  }
+
+  ngOnDestroy() {
+    this.paramSub.unsubscribe();
   }
 
   // convenience getter for easy access to form fields

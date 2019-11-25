@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { environment } from '../../environments/environment'
 import { Router } from '@angular/router';
@@ -9,13 +10,15 @@ import { Router } from '@angular/router';
     templateUrl: './webcam-screenshot.component.html',
     styleUrls: ['./webcam-screenshot.component.css']
 })
-export class WebcamScreenshotComponent implements OnInit {
+export class WebcamScreenshotComponent implements OnInit, OnDestroy {
   @ViewChild("video", { static: false })
   public video: ElementRef;
   @ViewChild("canvas", { static: false })
   public canvas: ElementRef;
   public captures: Array<any>;
   public text: string = "";
+  cloudResponseSub: Subscription;
+  cameraSub: Subscription;
 
   public constructor(
     private http: HttpClient,
@@ -25,6 +28,10 @@ export class WebcamScreenshotComponent implements OnInit {
   }
 
   public ngOnInit() { }
+
+  ngOnDestroy() {
+    this.cameraSub.unsubscribe();
+  }
 
   public ngAfterViewInit() {
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -43,7 +50,7 @@ export class WebcamScreenshotComponent implements OnInit {
     const base64Image = image.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
     this.captures.push(image);
 
-    this.http.post(
+    this.cloudResponseSub = this.http.post(
       `https://vision.googleapis.com/v1/images:annotate?key=${environment.cloudVisionApiKey}`, 
       { 
         "requests": [
