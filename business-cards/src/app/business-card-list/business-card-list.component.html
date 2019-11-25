@@ -12,8 +12,6 @@
     <button mat-stroked-button class="add-button" [routerLink]="['/add']">Add a business card</button>
   </span>
 </div>
-<mat-grid-list class="cards-grid" cols="2" gutterSize="0px" rowHeight="1:1">
-    <mat-grid-tile class="card-tile" *ngFor="let card of cards | async | filter : searchText">
-        <app-business-card class="card" [card]="card"></app-business-card>
-    </mat-grid-tile>
-</mat-grid-list>
+<div class="card" *ngFor="let card of cards | async | filter : searchText">
+    <app-business-card [card]="card"></app-business-card>
+</div>

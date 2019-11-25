@@ -13,8 +13,7 @@ import {
   MatCardModule,
   MatDividerModule,
   MatListModule,
-  MatIconModule,
-  MatGridListModule } from '@angular/material'
+  MatIconModule } from '@angular/material'
 
 import { environment } from '../environments/environment';
 
@@ -63,8 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     MatDividerModule,
     MatListModule,
-    MatIconModule,
-    MatGridListModule
+    MatIconModule
   ],
   providers: [
     AuthService,
